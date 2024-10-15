@@ -183,10 +183,12 @@
                     },
                 });
                 
-                const responseData = await response.json();
                 loader.style.display = 'none';
 
-                if (response.ok) {
+                if (response.status === 401) {
+                    resultDiv.innerHTML = '<p>目前没有新的更新。请过段时间再来查看。</p>';
+                } else if (response.ok) {
+                    const responseData = await response.json();
                     if (Array.isArray(responseData) && responseData.length > 0) {
                         let resultHTML = '<div style="overflow-x: auto;"><table><tr><th>标题</th><th>更新日期</th><th>操作</th></tr>';
                         responseData.forEach((item) => {
@@ -208,7 +210,7 @@
                         resultDiv.innerHTML = '<p>没有找到更新信息。</p>';
                     }
                 } else {
-                    resultDiv.innerHTML = '<p>您输入的信息错误，请检查邮箱地址是否正确。</p>';
+                    resultDiv.innerHTML = '<p>您输入的信息错误，请检��邮箱地址是否正确。</p>';
                 }
             } catch (error) {
                 console.error('捕获到错误:', error);
